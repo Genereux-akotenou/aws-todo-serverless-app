@@ -1,24 +1,28 @@
 import {APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult} from 'aws-lambda'
-import { generateUploadUrl } from '../../helpers/todos'
+import { getTodo } from '../../helpers/todos'
 import { createLogger } from '../../utils/logger';
 
 const logger = createLogger('createTodo');
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  const todoId = event.pathParameters.todoId
+  const authorization = event.headers.Authorization;
+  const split = authorization.split(' ');
+  const jwtToken = split[1];
+  const todoId = event.pathParameters.todoId;
 
   try {
-    const URL = await generateUploadUrl(todoId);
+    const todo = await getTodo(jwtToken, todoId);
     return {
-      statusCode: 202,
+      statusCode: 200,
       headers: {
         "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Credentials': true
       },
       body: JSON.stringify({
-        uploadUrl: URL,
-      })
-    };
-  } 
+        "item": todo
+      }),
+    }
+  }
   catch (error) {
     logger.error(`Error: ${error.message}`);
     return {
