@@ -82,7 +82,7 @@ export class TodoAccess {
                 TableName: this.todoTable,
                 Key: { userId, todoId },
             }).promise();
-            return true
+            return true;
         }
         catch{
             return false;
@@ -94,22 +94,8 @@ export class TodoAccess {
         const url = this.s3Client.getSignedUrl('putObject', {
             Bucket: this.s3BucketName,
             Key: todoId,
-            Expires: this.s3UrlExpirationDelay,
+            Expires: parseInt(this.s3UrlExpirationDelay, 10)
         });
         return url as string;
     }
 }
-
-//   async saveImgUrl(userId: string, todoId: string, bucketName: string): Promise<void> {
-//     await this.docClient
-//       .update({
-//         TableName: this.todosTable,
-//         Key: { userId, todoId },
-//         ConditionExpression: 'attribute_exists(todoId)',
-//         UpdateExpression: 'set attachmentUrl = :attachmentUrl',
-//         ExpressionAttributeValues: {
-//           ':attachmentUrl': `https://${bucketName}.s3.amazonaws.com/${todoId}`
-//         }
-//       })
-//       .promise();
-//   }

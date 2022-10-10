@@ -31,7 +31,7 @@ provider:
     ATTACHMENT_S3_BUCKET: ${self:app}-s3-${self:provider.stage}
     TODOS_TABLE: ${self:app}-table-${self:provider.stage}
     TODOS_USER_INDEX: TodosUserIndex
-    SIGNED_URL_EXPIRATION: 1000
+    SIGNED_URL_EXPIRATION: '300'
 
 custom:
   documentation:
