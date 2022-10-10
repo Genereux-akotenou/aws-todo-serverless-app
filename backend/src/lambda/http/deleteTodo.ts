@@ -1,5 +1,5 @@
 import {APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult} from 'aws-lambda'
-import { deleteTodo } from '../../helpers/todos'
+import { deleteTodo } from '../../businessLogic/todos'
 import { createLogger } from '../../utils/logger';
 
 const logger = createLogger('createTodo');

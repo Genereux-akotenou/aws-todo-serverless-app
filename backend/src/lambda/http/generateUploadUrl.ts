@@ -1,5 +1,5 @@
 import {APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult} from 'aws-lambda'
-import { generateUploadUrl } from '../../helpers/todos'
+import { generateUploadUrl } from '../../businessLogic/todos'
 import { createLogger } from '../../utils/logger';
 
 const logger = createLogger('createTodo');
