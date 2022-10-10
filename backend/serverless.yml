@@ -19,7 +19,7 @@ provider:
   apiGateway:
       minimumCompressionSize: 1024
 
-  stage: ${opt:stage, 'prod'}
+  stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
 
   tracing:
@@ -43,7 +43,7 @@ custom:
     models:
       - name: CreateTodoRequest
         contentType: 'application/json'
-        schema: 
+        schema:
           required:
             - name
             - dueDate
@@ -95,7 +95,7 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}    
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
       - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
@@ -136,16 +136,16 @@ functions:
           authorizer: Auth
           documentation:
             summary: "Create a new todos item"
-            description: "Create a new todos item" 
-            requestModels: 
-              'application/json': ${file(models/create-todo-model.json)}
+            description: "Create a new todos item"
+            requestModels:
+              'application/json': CreateTodoRequest
           reqValidatorName: RequestBodyValidator
     iamRoleStatementsName: ${self:provider.environment.APP_NAME}-create-role-${self:provider.stage}
     iamRoleStatements:
       - Effect: Allow
         Action:
           - dynamodb:PutItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}   
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
       - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
@@ -164,16 +164,16 @@ functions:
           authorizer: Auth
           documentation:
             summary: "Update a todos item"
-            description: "Update a todos item" 
-            requestModels: 
-              'application/json': ${file(models/update-todo-model.json)}
+            description: "Update a todos item"
+            requestModels:
+              'application/json': UpdateTodoRequest
           reqValidatorName: RequestBodyValidator
     iamRoleStatementsName: ${self:provider.environment.APP_NAME}-update-role-${self:provider.stage}
     iamRoleStatements:
       - Effect: Allow
         Action:
           - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}   
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
       - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
@@ -196,7 +196,7 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:DeleteItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}   
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
       - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
