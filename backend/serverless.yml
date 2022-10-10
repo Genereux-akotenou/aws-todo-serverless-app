@@ -19,7 +19,7 @@ provider:
   apiGateway:
       minimumCompressionSize: 1024
 
-  stage: ${opt:stage, 'dev'}
+  stage: ${opt:stage, 'prod'}
   region: ${opt:region, 'us-east-1'}
 
   tracing:
@@ -166,7 +166,7 @@ functions:
             summary: "Update a todos item"
             description: "Update a todos item" 
             requestModels: 
-              'application/json': ${file(models/update-todo-request.json)}
+              'application/json': ${file(models/update-todo-model.json)}
           reqValidatorName: RequestBodyValidator
     iamRoleStatementsName: ${self:provider.environment.APP_NAME}-update-role-${self:provider.stage}
     iamRoleStatements:
